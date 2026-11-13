@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedikApp Caja para Windows</title>
+<meta name="description" content="Descarga la caja de MedikApp para computadoras con Windows.">
+<meta name="robots" content="noindex">
+<style>
+  /* Mismos colores que la caja (tema «Azul claro», Theme.kt) */
+  :root {
+    --bg: #eef2f7; --surf: #fafbfd; --ink: #1a1a2e; --ink2: #55607a; --line: #e1e7ef; --bd: #c9d3e0;
+    --pri: #1b5e8b; --priI: #ffffff; --head: #0d3d7a; --headInk2: #b9cce6;
+    --warnT: #f8ecd4; --warnI: #7a4e0e; --okT: #e0f0e3; --okI: #1e6b34;
+    --win: #0063b1; --winI: #ffffff; --mark: #ffd54a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1724; --surf: #172233; --ink: #e8eef7; --ink2: #a7b4c8; --line: #26344b; --bd: #34445e;
+      --pri: #4f9bdb; --priI: #0a1624; --head: #0a2550; --headInk2: #a9bedc;
+      --warnT: #3a2f1c; --warnI: #e8bf77; --okT: #1d3a2a; --okI: #6cc28a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { background: var(--head); color: var(--priI); padding: 28px 16px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  header .wrap { padding: 0; }
+  h1 { margin: 0 0 4px; font-size: 1.7rem; }
+  header p { margin: 0; color: var(--headInk2); }
+  main { padding: 24px 0 48px; }
+  .card { background: var(--surf); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin: 0 0 16px; }
+  .download { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  .download > div { min-width: 0; flex: 1 1 240px; }
+  .btn { display: inline-block; background: var(--pri); color: var(--priI); text-decoration: none; font-weight: 700; border: 0;
+         padding: 14px 22px; border-radius: 999px; font-size: 1.05rem; font-family: inherit; cursor: pointer; text-align: center; }
+  .btn.second { background: transparent; color: var(--pri); border: 2px solid var(--pri); padding: 10px 18px; font-size: .95rem; }
+  .btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .meta { color: var(--ink2); font-size: .92rem; }
+  .hash { font-family: ui-monospace, Consolas, monospace; font-size: .8rem; word-break: break-all; color: var(--ink2); }
+  .note { background: var(--warnT); color: var(--warnI); border-radius: 12px; padding: 12px 14px; margin: 0 0 16px; }
+  .ok { background: var(--okT); color: var(--okI); border-radius: 12px; padding: 10px 14px; margin: 0 0 16px; }
+  h2 { font-size: 1.15rem; margin: 0 0 10px; }
+  h3 { font-size: 1rem; margin: 16px 0 6px; }
+  ol, ul { margin: 0; padding-left: 1.3em; }
+  li { margin: 6px 0; }
+  [hidden] { display: none !important; }
+  footer { color: var(--ink2); font-size: .85rem; text-align: center; padding: 0 16px 32px; }
+
+  /* Dibujos del aviso de Windows: muestran dónde tocar, no son capturas */
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 12px; }
+  figure { margin: 0; }
+  figcaption { font-size: .9rem; color: var(--ink2); margin-top: 6px; }
+  .win { background: var(--win); color: var(--winI); border-radius: 6px; padding: 14px; font: 13px/1.35 "Segoe UI", system-ui, sans-serif; min-height: 190px;
+         display: flex; flex-direction: column; }
+  .win b { display: block; font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .win .link { text-decoration: underline; }
+  .win .data { margin-top: 8px; opacity: .95; }
+  .win .row { margin-top: auto; display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; padding-top: 12px; }
+  .win .wbtn { border: 1px solid var(--winI); padding: 4px 12px; white-space: nowrap; }
+  .win .here { outline: 3px solid var(--mark); outline-offset: 2px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>MedikApp Caja para Windows</h1>
+    <p>La caja de tu farmacia en una computadora: ventas, cobro, inventario y corte, con o sin internet.</p>
+  </div>
+</header>
+<main class="wrap">
+  <p class="note" id="otro-equipo" hidden><strong>Esta descarga es para computadoras con Windows.</strong>
+    Abre esta misma página en la computadora de la farmacia, o copia el enlace y mándatelo.
+    <br><button class="btn second" id="copiar" type="button" style="margin-top: 10px">Copiar el enlace</button>
+    <span id="copiado" role="status"></span></p>
+
+  <section class="card download" aria-labelledby="descarga">
+    <div>
+      <h2 id="descarga">Descargar</h2>
+      <div class="meta" id="version">Buscando la versión vigente…</div>
+      <div class="hash" id="hash"></div>
+    </div>
+    <a class="btn" id="boton" href="#" aria-disabled="true">Descargar para Windows</a>
+  </section>
+
+  <p class="ok" id="firmada" hidden><strong>Instalador con firma digital.</strong> Windows muestra el nombre del editor
+    al instalarlo. Las primeras semanas de una versión aún puede aparecer el aviso azul de abajo; es normal.</p>
+  <p class="note" id="sin-firma" hidden><strong>Versión de piloto, sin firma digital.</strong> Al abrir el instalador,
+    Windows muestra el aviso azul “Windows protegió su PC”. Abajo se ve cómo continuar.</p>
+
+  <section class="card" aria-labelledby="instalar">
+    <h2 id="instalar">Instalar</h2>
+    <ol>
+      <li>Revisa la <strong>fecha, hora y zona horaria</strong> de la computadora.</li>
+      <li>Abre el instalador descargado (queda en la carpeta <strong>Descargas</strong>). Se instala solo para tu
+        usuario de Windows: <strong>no pide administrador</strong> y tarda cerca de un minuto.</li>
+      <li>El instalador se cierra solo al terminar. Abre <strong>MedikApp Caja</strong> desde el escritorio o el menú Inicio.</li>
+      <li>En la app del dueño: <strong>Más › Cajas › Agregar caja</strong>, y escribe el código de 6 letras en la caja.</li>
+      <li>Elige la sucursal y el número de caja. Cuando el dueño la apruebe, llegan los usuarios y el catálogo solos.</li>
+    </ol>
+
+    <h3>Si aparece el aviso azul de Windows</h3>
+    <div class="shots">
+      <figure>
+        <div class="win" role="img" aria-label="Dibujo del aviso «Windows protegió su PC» con «Más información» resaltado">
+          <b>Windows protegió su PC</b>
+          Microsoft Defender SmartScreen impidió el inicio de una aplicación desconocida.
+          <span><span class="link here">Más información</span></span>
+          <div class="row"><span class="wbtn">No ejecutar</span></div>
+        </div>
+        <figcaption>1. Toca <strong>Más información</strong>.</figcaption>
+      </figure>
+      <figure>
+        <div class="win" role="img" aria-label="Dibujo del mismo aviso con el botón «Ejecutar de todas formas» resaltado">
+          <b>Windows protegió su PC</b>
+          <div class="data">Aplicación: MedikApp Caja….exe<br>Editor: <span id="editor">Editor desconocido</span></div>
+          <div class="row"><span class="wbtn here">Ejecutar de todas formas</span><span class="wbtn">No ejecutar</span></div>
+        </div>
+        <figcaption>2. Revisa que diga <strong>MedikApp Caja</strong> y toca <strong>Ejecutar de todas formas</strong>.</figcaption>
+      </figure>
+    </div>
+    <p class="meta" style="margin: 10px 0 0">Descárgalo solo desde esta página. Si el aviso no trae “Más información”,
+      la computadora tiene un bloqueo más estricto: avísanos antes de cambiar nada.</p>
+  </section>
+
+  <section class="card" aria-labelledby="requisitos">
+    <h2 id="requisitos">Requisitos</h2>
+    <ul>
+      <li>Windows 10 (22H2) o Windows 11, de 64 bits.</li>
+      <li>4 GB de memoria o más, 500 MB libres en disco y pantalla de 1366 × 768 o mayor.</li>
+      <li>Internet para configurarla; después vende también sin internet (solo efectivo).</li>
+      <li>Impresora de tickets USB o de red y lector de códigos USB (opcionales).</li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="actualizar">
+    <h2 id="actualizar">Actualizar</h2>
+    <p id="actualiza-sola" hidden>La caja busca versiones nuevas por su cuenta. Cuando hay una, la descarga y la
+      instala sola en la pantalla de PIN, sin venta en curso, o al cerrarla; después se vuelve a abrir. No hay que hacer nada.</p>
+    <p id="actualiza-a-mano">Cuando haya una versión nueva, la caja le avisa al administrador. Descárgala aquí e
+      instálala encima, con la caja cerrada.</p>
+    <p class="ok" style="margin: 10px 0 0">Al actualizar o reinstalar, las ventas, usuarios y configuración se conservan.</p>
+  </section>
+
+  <section class="card" aria-labelledby="ayuda">
+    <h2 id="ayuda">Si algo falla</h2>
+    <ul>
+      <li><strong>No abre o se cierra:</strong> reinicia la computadora y vuelve a abrirla. Si sigue, instala esta versión encima.</li>
+      <li><strong>No se une a la tienda:</strong> revisa el internet y la fecha y hora de la computadora; el código de 6 letras dura pocos minutos.</li>
+      <li><strong>Para pedir ayuda:</strong> en la caja, <strong>Admin › Sistema</strong> muestra la versión y el resumen de errores para
+        mandárnoslo.</li>
+    </ul>
+  </section>
+</main>
+<footer>MedikApp · Caja para Windows</footer>
+<script>
+  (function () {
+    function el(id) { return document.getElementById(id); }
+    function show(id, visible) { el(id).hidden = !visible; }
+
+    // La descarga solo sirve en Windows: en otro equipo (el celular del dueño, una Mac) se ofrece mandar el enlace
+    var agent = navigator.userAgent || "";
+    var isWindows = /Windows NT/.test(agent) && !/Windows Phone/.test(agent);
+    show("otro-equipo", !isWindows);
+    el("copiar").addEventListener("click", function () {
+      var done = function (text) { el("copiado").textContent = text; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.href).then(function () { done(" Enlace copiado."); }, function () { done(" " + location.href); });
+      } else { done(" " + location.href); }
+    });
+
+    function unavailable() {
+      el("version").textContent = "Aún no hay una versión publicada. Vuelve más tarde.";
+      el("boton").setAttribute("aria-disabled", "true");
+    }
+
+    // La versión, el archivo y su huella salen del mismo version.json que usan las cajas para actualizarse
+    fetch("version.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (v) {
+        var url = v && typeof v.url === "string" ? new URL(v.url, location.href) : null;
+        if (!url || url.protocol !== "https:" || !/^\d+\.\d+\.\d+$/.test(v.version || "")) return unavailable();
+        var boton = el("boton");
+        boton.href = url.href;
+        boton.removeAttribute("aria-disabled");
+        boton.textContent = isWindows ? "Descargar para Windows" : "Descargar de todos modos";
+        el("version").textContent = "Versión " + v.version + (v.notes ? " · " + v.notes : "");
+        if (/^[0-9a-f]{64}$/i.test(v.sha256 || "")) el("hash").textContent = "SHA-256: " + v.sha256;
+        show("firmada", v.signed === true);
+        show("sin-firma", v.signed !== true);
+        show("actualiza-sola", v.signed === true);
+        show("actualiza-a-mano", v.signed !== true);
+        if (v.signed === true) el("editor").textContent = "el nombre del editor";
+      })
+      .catch(unavailable);
+  })();
+</script>
+</body>
+</html>
